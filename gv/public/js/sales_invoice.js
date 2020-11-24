@@ -1,4 +1,4 @@
-frappe.ui.form.on('Scan CT', {
+frappe.ui.form.on('Sales Invoice', {
 	setup: function(frm){
         frappe.db.get_value('Company', frappe.sys_defaults.company, ['airline_supplier_group_cf','hotel_supplier_group_cf'])
         .then(r => {
