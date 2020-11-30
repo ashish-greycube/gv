@@ -45,7 +45,6 @@ frappe.ui.form.on('Sales Invoice', {
         })        
     },
     before_save: function(frm){
-        frm.set_value('supplier', frm.doc.items[0].supplier)
         let items=frm.doc.items;
         for (const item in items){
             let row=items[item]
