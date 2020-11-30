@@ -12,11 +12,9 @@ def make_purchase_invoice_from_sales_invoice(source_name,target_doc=None,supplie
 		doc = frappe.get_doc(target)
 		doc.run_method("onload")
 		doc.run_method("set_missing_values")
-		# doc.run_method("calculate_taxes_and_totals")
+		doc.run_method("calculate_taxes_and_totals")
 	def update_item(obj, target, source_parent):
-		print('cost_amount_cfcost_amount_cf',obj.cost_amount_cf)
 		target.rate=flt(obj.cost_amount_cf)
-		print('cost_amount_cfcost_amount_cf',target.rate)
 
 	def update_main_item(source, target,source_parent):
 		target.supplier=supplier
@@ -31,13 +29,12 @@ def make_purchase_invoice_from_sales_invoice(source_name,target_doc=None,supplie
 		},
 		"Sales Invoice Item": {
 			"doctype": "Purchase Invoice Item",
-			"field_map": {
-				"name": "sales_invoice_item",
-				"parent": "sales_invoice",
+			"field_no_map":{
+				"rate"
 			},
 			"postprocess": update_item,
-            # "condition": lambda doc: serial_no in doc.serial_no
 		},
 	}, target_doc, set_missing_values)
-
+	doc.inter_company_invoice_reference=None
+	doc.save()
 	return doc 

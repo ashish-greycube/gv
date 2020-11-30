@@ -1,6 +1,7 @@
 frappe.ui.form.on('Sales Invoice', {
     refresh: function (frm) {
         if (frm.doc.docstatus == 1) {
+            
             frm.add_custom_button(__('Make Purchase Invoice'), function () {
                 if (frm.doc.items[0].supplier) {
                     frappe.call({
@@ -13,7 +14,8 @@ frappe.ui.form.on('Sales Invoice', {
                         callback: function (r) {
                             if (r.message) {
                                 var doc = frappe.model.sync(r.message)[0];
-                                frappe.set_route("Form", doc.doctype, doc.name);
+                                window.open("#Form/"+doc.doctype+"/" + doc.name)
+                                // frappe.set_route("Form", doc.doctype, doc.name);
                             }
                         }
                     });
@@ -43,6 +45,7 @@ frappe.ui.form.on('Sales Invoice', {
         })        
     },
     before_save: function(frm){
+        frm.set_value('supplier', frm.doc.items[0].supplier)
         let items=frm.doc.items;
         for (const item in items){
             let row=items[item]
