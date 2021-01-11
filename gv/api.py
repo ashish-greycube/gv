@@ -18,6 +18,7 @@ def make_purchase_invoice_from_sales_invoice(source_name,target_doc=None,supplie
 
 	def update_main_item(source, target,source_parent):
 		target.supplier=supplier
+		target.sales_partner_cf=source.sales_partner
 
 	doc = get_mapped_doc("Sales Invoice", source_name,	{
 		"Sales Invoice": {
