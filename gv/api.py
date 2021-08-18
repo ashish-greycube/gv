@@ -19,6 +19,8 @@ def make_purchase_invoice_from_sales_invoice(source_name,target_doc=None,supplie
 	def update_main_item(source, target,source_parent):
 		target.supplier=supplier
 		target.sales_partner_cf=source.sales_partner
+		target.set_posting_time=1
+		target.posting_date=source.posting_date
 
 	doc = get_mapped_doc("Sales Invoice", source_name,	{
 		"Sales Invoice": {
@@ -35,6 +37,9 @@ def make_purchase_invoice_from_sales_invoice(source_name,target_doc=None,supplie
 			},
 			"postprocess": update_item,
 		},
+		"Sales Taxes and Charges": {
+			"doctype": "Purchase Taxes and Charges"
+			},		
 	}, target_doc, set_missing_values)
 	doc.inter_company_invoice_reference=None
 	doc.save()
